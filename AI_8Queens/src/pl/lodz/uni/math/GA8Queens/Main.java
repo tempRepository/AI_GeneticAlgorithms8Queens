@@ -39,7 +39,7 @@ public class Main extends javax.swing.JFrame {
         btTest.setText("Test");
         btTest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btTestActionPerformed(evt);
+              //  btTestActionPerformed(evt);
             }
         });
 
@@ -107,20 +107,13 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/*
     private void btTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTestActionPerformed
-        /* Chromosome chromosome = new Chromosome(3);
-         taOutput.setText(chromosome.toString());
-         taOutput.append("\n\n" + Integer.toString(chromosome.estimate()));
-         chromosome.mutate();
-         taOutput.append("\n\n" + chromosome.toString());
-         taOutput.append("\n\n" + Integer.toString(chromosome.estimate()));
-         */
+ 
         taOutput.setText("");
         int greatnessBefore = -1;
         int greatnessAfter = -1;
         Population population = new Population(Integer.parseInt(tfPopulationQuantity.getText()), Integer.parseInt(tfMagicSquareSide.getText()));
-        //  taOutput.append("GREATNESS:"+String.valueOf(population.getGreatness())+"\n");
         int best = -1;
         boolean worthReplaying = true;
         while (worthReplaying) {            
@@ -146,12 +139,12 @@ public class Main extends javax.swing.JFrame {
                 taOutput.append("\n Nie wygenerowano magicznego kwadratu w zadanej ilości iteracji \n");
             }
         }
-        // taOutput.append(Boolean.toString(population.mutate(2)));
-        //   population.hybridization(0, 1);
-        // population.transposition(0);
+
         
         
-    }//GEN-LAST:event_btTestActionPerformed
+    }
+    */
+   
 
     /**
      * @param args the command line arguments
