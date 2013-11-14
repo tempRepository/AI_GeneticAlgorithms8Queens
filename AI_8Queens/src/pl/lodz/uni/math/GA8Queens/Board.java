@@ -121,23 +121,12 @@ public class Board implements Comparable {
         return size;
     }
 
-/*  Is it neccessary?  
- *  protected void mutate() {
 
-        int a = -1;
-        int b = -1;
-        int c = -1;
-        int d = -1;
-        while (a == b && c == d) {
-            a = rand.nextInt(size);
-            b = rand.nextInt(size);
-            c = rand.nextInt(size);
-            d = rand.nextInt(size);
-        }
-        int temp = getGenes()[a][b];
-        getGenes()[a][b] = getGenes()[c][d];
-        getGenes()[c][d] = temp;
-    }*/
+  protected void mutate() {
+      int temp = rand.nextInt(8);
+      int value=rand.nextInt(8);
+      tiles[temp]=value;
+    }
 
 
 

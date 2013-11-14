@@ -29,11 +29,11 @@ public class Population {
         computeGreatness();
     }
 
-/*    private boolean mutate(int chromosomeId) {
-        if (chromosomeId >= 0 && chromosomeId < getChromosomes().size()) {
+    private boolean mutate(int chromosomeId) {
+        if (chromosomeId >= 0 && chromosomeId < getChessBoards().size()) {
             boolean probability = rand.nextInt(5) == 0;
             if (probability) {
-                getChromosomes().get(chromosomeId).mutate();
+                getChessBoards().get(chromosomeId).mutate();
                 return true;
             } else {
                 return false;
@@ -42,65 +42,37 @@ public class Population {
             return false;
         }
 
-    }*/
+    }
 
     //change to private!
     //Bug here!
     public boolean crossover(int firstBoard, int secondBoard) {
-        boolean probability = rand.nextInt(5) == 0;
+        //zmienić!
+       // boolean probability = rand.nextInt(5) == 0;
+        boolean probability = true;
         if (probability) {
 
             int length = 0;
             while (length == 0) {
                 length = rand.nextInt((boardSize) + 1);
             }
-            int positionA = -1;
-            int positionB = -1;          
-            positionA = rand.nextInt(boardSize - (length - 1));
-            positionB = rand.nextInt(boardSize - (length - 1));
+            int position = -1;          
+            position = rand.nextInt(boardSize - (length - 1));
 
-            int[] tempA = chessBoards.get(firstBoard).getTiles();
-            int[] tempB = chessBoards.get(secondBoard).getTiles();
-            int[] firstChildrenBoard = new int[boardSize];
-            for (int i = 0; i < boardSize; i++) {
-                firstChildrenBoard[i] = tempA[i];
-            }
+            int[] firstChild = chessBoards.get(firstBoard).getTiles().clone();
+            int[] secondChild = chessBoards.get(secondBoard).getTiles().clone();
 
             for (int i = 0; i < length; i++) {
-                int geneB_InChildren_Position = getPosition(firstChildrenBoard, tempB[i + positionB]);
-                int geneInChildrenCenter_Position = i + positionA;
-                if (geneB_InChildren_Position != geneInChildrenCenter_Position) {
-
-                    int temp = firstChildrenBoard[geneB_InChildren_Position];
-                    firstChildrenBoard[geneB_InChildren_Position] = firstChildrenBoard[geneInChildrenCenter_Position];
-                    firstChildrenBoard[geneInChildrenCenter_Position] = temp;
-
-                }
+                int temp=secondChild[position+i];
+                secondChild[position+i]=firstChild[position+i];
+                firstChild[position+i]=temp;
             }
             Board children1 = new Board();
-            children1.setTiles(firstChildrenBoard);
+            children1.setTiles(firstChild);
             newChessBoards.add(children1);
             //2 dziecko
-
-            int[] secondChildrenGenes = new int[boardSize];
-            for (int i = 0; i < boardSize; i++) {
-                secondChildrenGenes[i] = tempB[i];
-            }
-
-            for (int i = 0; i <= length - 1; i++) {
-                int geneA_InSecondChildrenPosition = getPosition(secondChildrenGenes, tempA[i + positionA]);
-                int geneInSecondChildrenCenterPosition = i + positionB;
-                if (geneA_InSecondChildrenPosition != geneInSecondChildrenCenterPosition) {
-
-                    int temp = secondChildrenGenes[geneA_InSecondChildrenPosition];
-                    secondChildrenGenes[geneA_InSecondChildrenPosition] = secondChildrenGenes[geneInSecondChildrenCenterPosition];
-                    secondChildrenGenes[geneInSecondChildrenCenterPosition] = temp;
-                }
-
-            }
-
             Board children2 = new Board();
-            children2.setTiles(secondChildrenGenes);
+            children2.setTiles(secondChild);
             newChessBoards.add(children2);
             return true;
         } else {
@@ -115,7 +87,7 @@ public class Population {
         for (int i = 0; i < counter; i++) {
             int parentA = -1;
             int parentB = -1;
-            if (greatness > 0) {
+            if (greatness>0) {
                 int sum = 0;
                 int randomParent = rand.nextInt(greatness) + 1;
                 int iterator = 0;
@@ -125,10 +97,8 @@ public class Population {
                 }
                 parentA = iterator - 1;
                 parentB = iterator - 1;
-                if (greatness == 1) {
-                    System.out.println("");
-                }
-                int criticalIterations = 5;
+            
+                int criticalIterations = 100;
                 while (parentA == parentB) {
                     if (criticalIterations > 0) {
                         sum = 0;
@@ -158,16 +128,14 @@ public class Population {
                 }
                 crossover(parentA, parentB);
             }
-            //hybridization(2*i, 2*i+1);
+         
         }
     }
 
+    
     private void newToTheOld() {
         chessBoards = newChessBoards;
-        //important?
-//        if (chromosomes.size()<=30) {
-//          Collections.sort(chromosomes);  
-//        }
+        //Collections.sort(chessBoards);  
 
         // int quantity = newChromosomes.size() / 2;
         newChessBoards = new ArrayList<Board>();
@@ -187,15 +155,14 @@ public class Population {
         boolean best = false;
         int bestId = -1;
         for (int i = 0; i < getChessBoards().size() && !best; i++) {
-           // mutate(i);
+            mutate(i);
            // transposition(i);
             int rating = getChessBoards().get(i).estimate();
-            if (rating == (2 * boardSize) + 2) {
+            if (rating == 8) {
                 best = true;
                 bestId = i;
             }
         }
-
         computeGreatness();
         return bestId;
 
@@ -207,16 +174,17 @@ public class Population {
             greatness += getChessBoards().get(i).getRate();
 
         }
+        this.greatness=greatness;
     }
 
-    private int getPosition(int[] array, int number) {
+/*    private int getPosition(int[] array, int number) {
         for (int i = 0; i < array.length; i++) {
             if (array[i] == number) {
                 return i;
             }
         }
         return -1;
-    }
+    }*/
 
     /**
      * @return the greatness
